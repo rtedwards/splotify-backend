@@ -82,7 +82,7 @@ def get_track_info(tracks):
 
 def main():
     # Set OS Path
-    env_path = Path('./server') / '.env'
+    env_path = Path('.') / '.env'
     load_dotenv(dotenv_path=env_path)
 
     # Retreive client_id and client_secret from environment variables
