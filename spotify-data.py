@@ -1,26 +1,11 @@
 import os  # for accessing environment variables
-import time  # for execution times
+from dotenv import load_dotenv # loads environment variables from .env
+from pathlib import Path
 import spotipy  # python library for Spotify API
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 import seaborn as sns
 import pandas as pd
-
-# Retreive client_id and client_secret from environment variables
-# Should be set when initializing class
-CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-REDIRECT_URI = "http://localhost:2222/"
-USERNAME = ""
-SCOPE = 'user-library-read \
-        playlist-read-private' 
-
-# Setting Spotify Client Credentials
-# client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
-# sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-
-# Retrieving API token
-token = util.prompt_for_user_token(USERNAME, SCOPE, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 
 def get_saved_tracks(token): 
     '''
@@ -40,7 +25,7 @@ def get_saved_tracks(token):
             for item in track_results['items']:
                 track = item['track']
                 artist_name.append(track['artists'][0]['name'])
-                track_name.aend(track['name'])
+                track_name.append(track['name'])
                 track_id.append(track['id'])
                 popularity.append(track['popularity'])
     else: # raise error
@@ -65,30 +50,59 @@ def get_track_info(tracks):
     '''
     pass
 
-def get_audio_features(self, df_tracks)
-    '''
-    Given a dataframe of tracks, retrives audio features for each track, 
-    joins audio features, removes duplicates, and returns a dataframe 
+# def get_audio_features(self, df_tracks):
+#     '''
+#     Given a dataframe of tracks, retrives audio features for each track, 
+#     joins audio features, removes duplicates, and returns a dataframe 
 
-    :param df_tracks: dataframe of track
-    '''
-    # Retrieve Audio Features
-    rows = []
-    batchsize = 100 # check batchsize in Spotify API
-    None_counter = 0
+#     :param df_tracks: dataframe of track
+#     '''
+#     # Retrieve Audio Features
+#     rows = []
+#     batchsize = 100 # check batchsize in Spotify API
+#     None_counter = 0
 
-    for i in range(0, len(df_tracks['track_id']), batchsize): 
-        batch = df_tracks['track_id'][i:i+batchsize]
-        feature_results = sp.audio_features(batch)
+#     for i in range(0, len(df_tracks['track_id']), batchsize): 
+#         batch = df_tracks['track_id'][i:i+batchsize]
+#         feature_results = sp.audio_features(batch)
         
-        for index, track in enumerate(feature_results):
-            if track == None:
-                None_counter = None_counter + 1
-            else:
-                rows.append(track)
+#         for index, track in enumerate(feature_results):
+#             if track == None:
+#                 None_counter = None_counter + 1
+#             else:
+#                 rows.append(track)
                 
-    # print('Number of tracks where no audio features were available:', None_counter)
+#     # print('Number of tracks where no audio features were available:', None_counter)
 
-    df_audio_features = pd.DataFrame.from_dict(rows, orient='columns')
-    df_audio_features.rename(columns = {'id': 'track_id'}, inplace=True) # rename column to match other dataframe
-    self.df = pd.merge(df_tracks, df_audio_features, on='track_id', how='inner')
+#     df_audio_features = pd.DataFrame.from_dict(rows, orient='columns')
+#     df_audio_features.rename(columns = {'id': 'track_id'}, inplace=True) # rename column to match other dataframe
+#     self.df = pd.merge(df_tracks, df_audio_features, on='track_id', how='inner')
+
+#     return None
+
+def main():
+    # Set OS Path
+    env_path = Path('./server') / '.env'
+    load_dotenv(dotenv_path=env_path)
+
+    # Retreive client_id and client_secret from environment variables
+    CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+    CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+    REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI')
+    USERNAME = ""
+    SCOPE = 'user-library-read \
+            playlist-read-private' 
+
+    # Setting Spotify Client Credentials
+    client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    # Retrieving API token
+    token = util.prompt_for_user_token(USERNAME, SCOPE, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+
+    df_tracks = get_saved_tracks(token)
+    print(df_tracks.head())
+
+
+if __name__ == "__main__":
+    main()
