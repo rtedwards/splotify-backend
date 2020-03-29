@@ -27,12 +27,18 @@ var cookieParser = require('cookie-parser');
 // const port = 2222
 
 // Load Environment Variables from .env
-const dotenv = require('dotenv');
-dotenv.config();
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
-const port = process.env.PORT
+// const dotenv = require('dotenv');
+// dotenv.config();
+// const client_id = process.env.SPOTIFY_CLIENT_ID;
+// const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+// const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+// const port = process.env.PORT
+
+// Load Environment Variables from .config.js
+const { client_id } = require('./config');
+const { client_secret } = require('./config');
+const { redirect_uri } = require('./config');
+const { port } = require('./config');
 console.log(`Your SPOTIFY_CLIENT_ID is ${client_id}`);
 console.log(`Your SPOTIFY_CLIENT_SECRET is ${client_secret}`);
 console.log(`Your SPOTIFY_REDIRECT_URI is ${redirect_uri}`);
