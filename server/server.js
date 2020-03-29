@@ -35,10 +35,7 @@ var cookieParser = require('cookie-parser');
 // const port = process.env.PORT
 
 // Load Environment Variables from .config.js
-const { client_id } = require('./config');
-const { client_secret } = require('./config');
-const { redirect_uri } = require('./config');
-const { port } = require('./config');
+const { client_id, client_secret, redirect_uri, port } = require('./config');
 console.log(`Your SPOTIFY_CLIENT_ID is ${client_id}`);
 console.log(`Your SPOTIFY_CLIENT_SECRET is ${client_secret}`);
 console.log(`Your SPOTIFY_REDIRECT_URI is ${redirect_uri}`);
