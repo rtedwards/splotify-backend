@@ -5,6 +5,9 @@
  *
  * For more information, read
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
+ * 
+ * Example Code from
+ * https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786
  */
 
 var express = require('express'); // Express web server framework
@@ -17,11 +20,19 @@ var cookieParser = require('cookie-parser');
 // var client_secret = 'CLIENT_SECRET'; // Your secret
 // var redirect_uri = 'REDIRECT_URI'; // Your redirect uri
 
-// Load Environment Variables
+// Load Environment Variables from Bash
+// const client_id = process.env.SPOTIFY_CLIENT_ID;
+// const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+// const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+// const port = 2222
+
+// Load Environment Variables from .env
+const dotenv = require('dotenv');
+dotenv.config();
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
-const port = 2222
+const port = process.env.PORT
 console.log(`Your SPOTIFY_CLIENT_ID is ${client_id}`);
 console.log(`Your SPOTIFY_CLIENT_SECRET is ${client_secret}`);
 console.log(`Your SPOTIFY_REDIRECT_URI is ${redirect_uri}`);
