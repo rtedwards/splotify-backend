@@ -1,0 +1,19 @@
+name: splotify
+channels: 
+    - defaults
+    - conda-forge
+    - anaconda
+dependencies:
+    - hdbscan=0.8.22
+    - numpy=1.18.1
+    - pandas=1.0.1
+    - python=3.7.2
+    - pip=20.0.2
+    - scikit-learn=0.22.2
+
+    - pip:
+        - seaborn==0.10.0
+        - spotipy==2.9.0 
+
+
+
