@@ -1,5 +1,5 @@
 // config.js
-require('dotenv').config();
+require('dotenv').config({ path: './../.env'});
 module.exports = {
     client_id: process.env.SPOTIFY_CLIENT_ID,
     client_secret: process.env.SPOTIFY_CLIENT_SECRET,
